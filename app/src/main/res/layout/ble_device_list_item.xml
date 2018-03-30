@@ -14,7 +14,7 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_width="0dp"
-                android:textSize="@dimen/text_size"
+                android:textSize="@dimen/text_size_20"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:textColor="@android:color/black"
@@ -31,14 +31,42 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="vertical">
             <TextView
-                android:layout_width="0dp"
-                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_size_20"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="@android:color/black"
                 android:id="@+id/txt_macaddr"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_size_14"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#f90303"
+                android:id="@+id/txt_uuid"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_size_20"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:id="@+id/txt_major"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_size_20"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:id="@+id/txt_minor"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_size_20"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#aa03fd"
+                android:id="@+id/txt_distance"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

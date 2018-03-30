@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BLE_1150_1015.iml" filepath="$PROJECT_DIR$/BLE_1150_1015.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BLE_1015_1150.iml" filepath="$PROJECT_DIR$/BLE_1015_1150.iml" />
+      <module fileurl="file://E:\doanchuyennganh\DoAn\BLE_1015_1150\BLE_1150_1015.iml" filepath="E:\doanchuyennganh\DoAn\BLE_1015_1150\BLE_1150_1015.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

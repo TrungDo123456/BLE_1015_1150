@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">BLE_1150_1015</string>
-    <string name="start_scan">SART SCAN</string>
+    <string name="start_scan">START SCAN</string>
+    <string name="formatter_meters">%sm</string>
 </resources>

@@ -10,6 +10,11 @@ import com.example.doquo.ble_1150_1015.Utils.Utils;
 
 import java.util.logging.Handler;
 
+import uk.co.alt236.bluetoothlelib.device.BluetoothLeDevice;
+import uk.co.alt236.bluetoothlelib.device.beacon.BeaconType;
+import uk.co.alt236.bluetoothlelib.device.beacon.BeaconUtils;
+import uk.co.alt236.bluetoothlelib.device.beacon.ibeacon.IBeaconDevice;
+
 /**
  * Created by doquo on 03/23/2018.
  */
@@ -72,12 +77,14 @@ public class Scanner_BLE {
             new BluetoothAdapter.LeScanCallback() {
         @Override
         public void onLeScan(final BluetoothDevice bluetoothDevice, final int rssi, byte[] scanRecord) {
-            //final int new_rssi = rssi;
+            final BluetoothLeDevice ble_Device = new BluetoothLeDevice(bluetoothDevice,rssi,scanRecord,System.currentTimeMillis());
             if(rssi > signalStrength){
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mainActivity.addDevice(bluetoothDevice,rssi);
+                        if(BeaconUtils.getBeaconType(ble_Device)== BeaconType.IBEACON){//chỉ lấy bluetooth thuộc beacon
+                            mainActivity.addDevice(new IBeaconDevice(ble_Device),rssi);
+                        }
                     }
                 });
             }

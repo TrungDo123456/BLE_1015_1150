@@ -1,13 +1,11 @@
 package com.example.doquo.ble_1150_1015;
 
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -19,9 +17,9 @@ import com.example.doquo.ble_1150_1015.BroadCast.BroadcastReceiver_BTState;
 import com.example.doquo.ble_1150_1015.Device.BLE_Device;
 import com.example.doquo.ble_1150_1015.ScanBLE.Scanner_BLE;
 import com.example.doquo.ble_1150_1015.Utils.Utils;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+import uk.co.alt236.bluetoothlelib.device.beacon.ibeacon.IBeaconDevice;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -52,13 +50,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     private void init(){
         mBTStateUpdateReceiver = new BroadcastReceiver_BTState(getApplicationContext());
-        scanner_ble = new Scanner_BLE(this,10000,-75);
+        scanner_ble = new Scanner_BLE(this,30000,-75);
         mBLEDeviceHashMap = new HashMap<>();
         mBLEDeviceArrList = new ArrayList<>();
         listAdapter_ble_device = new ListAdapter_BLE_Device(this,R.layout.ble_device_list_item,mBLEDeviceArrList);
         listView_ble_device = new ListView(this);
         listView_ble_device.setAdapter(listAdapter_ble_device);
         btnSan = findViewById(R.id.btn_scan);
+
     }
     private void action(){
         ((ScrollView)findViewById(R.id.scrollView)).addView(listView_ble_device);
@@ -129,15 +128,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final String address = mBLEDeviceArrList.get(i).getAddress();
         Utils.Toast(getApplicationContext(),address);
     }
-    public void addDevice(BluetoothDevice bluetoothDevice, int rssi){
-        final String address = bluetoothDevice.getAddress();
+    public void addDevice(IBeaconDevice ble_Device, int rssi){
+        final String address = ble_Device.getAddress();
+        final  double distance = ble_Device.getAccuracy();
         if(!mBLEDeviceHashMap.containsKey(address)){
-            BLE_Device ble_device = new BLE_Device(bluetoothDevice);
+            BLE_Device ble_device = new BLE_Device(ble_Device);
             ble_device.setRSSI(rssi);
+            ble_device.setDistance(distance);
             mBLEDeviceHashMap.put(address,ble_device);
             mBLEDeviceArrList.add(ble_device);
         }else {
             mBLEDeviceHashMap.get(address).setRSSI(rssi);
+            mBLEDeviceHashMap.get(address).setDistance(distance);
         }
         listAdapter_ble_device.notifyDataSetChanged();
     }
