@@ -13,16 +13,32 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_weight="1"
         android:fillViewport="true"
         android:id="@+id/scrollView">
     </ScrollView>
-
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_weight="1"
-        android:text="@string/start_scan"
-        android:id="@+id/btn_scan"/>
-
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/start_scan"
+            android:id="@+id/btn_scan"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/stop_scan"
+            android:visibility="gone"
+            android:id="@+id/btn_stopscan"/>
+        <ProgressBar
+            android:id="@+id/progessBar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            />
+    </LinearLayout>
 </LinearLayout>

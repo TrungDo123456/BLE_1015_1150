@@ -4,10 +4,14 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
+import android.util.Log;
 
 import com.example.doquo.ble_1150_1015.MainActivity;
+import com.example.doquo.ble_1150_1015.R;
 import com.example.doquo.ble_1150_1015.Utils.Utils;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Handler;
 
 import uk.co.alt236.bluetoothlelib.device.BluetoothLeDevice;
@@ -27,6 +31,7 @@ public class Scanner_BLE {
     private BluetoothAdapter bluetoothAdapter;
     private android.os.Handler mHandler;
     private boolean mScanning;
+    private Timer timer;
 
     public Scanner_BLE(MainActivity mainActivity, long scanPeriod, int signalStrength){
         this.mainActivity = mainActivity;
@@ -35,6 +40,7 @@ public class Scanner_BLE {
         this.mHandler = new android.os.Handler();
         final BluetoothManager bluetoothManager = (BluetoothManager) mainActivity.getSystemService(Context.BLUETOOTH_SERVICE);
         bluetoothAdapter = bluetoothManager.getAdapter();
+      //  timer = new Timer();
     }
 
     public boolean isScanning() {
@@ -48,30 +54,39 @@ public class Scanner_BLE {
             scanLeDevice(true);
         }
     }
+    public void stopTimer(){
+        bluetoothAdapter.stopLeScan(leScanCallback);
+        mainActivity.stopScan();
+        mainActivity.visible_btn();
+        Utils.Toast(mainActivity.getApplicationContext(), mainActivity.getApplicationContext().getString(R.string.ket_thuc_scan));
+    }
     public void stop(){
         scanLeDevice(false);
     }
-
     private void scanLeDevice(final boolean enable){
-        if(enable && !mScanning){
-            Utils.Toast(mainActivity.getApplicationContext(),"Bắt đầu Scan");
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Utils.Toast(mainActivity.getApplicationContext(), "Kết thúc Scan");
-
-                    mScanning = false;
-                    bluetoothAdapter.stopLeScan(leScanCallback);
-
-                    mainActivity.stopScan();
+            if(enable && !mScanning){
+                if(timer!=null){
+                    timer.cancel();
                 }
-            },scanPeriod);
-            mScanning = true;
-            bluetoothAdapter.startLeScan(leScanCallback);
-        }else {
-            mScanning = false;
-            bluetoothAdapter.stopLeScan(leScanCallback);
-        }
+                timer = new Timer();
+                Utils.Toast(mainActivity.getApplicationContext(),mainActivity.getApplicationContext().getString(R.string.bat_dau_scan));
+                mScanning = true;
+                mainActivity.invisible_btn();
+                timer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        bluetoothAdapter.startLeScan(leScanCallback);
+                        //Log.d("checkout","abc");
+                    }
+                },100,scanPeriod);
+            }else {
+                mScanning = false;
+                bluetoothAdapter.stopLeScan(leScanCallback);
+                if(timer!=null){
+                    timer.cancel();
+                    timer = null;
+                }
+            }
     }
     private BluetoothAdapter.LeScanCallback leScanCallback =
             new BluetoothAdapter.LeScanCallback() {

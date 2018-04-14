@@ -35,7 +35,6 @@ public class BLE_Device {
     public int getMinor(){
         return ble_Device.getMinor();
     }
-    //final String accuracy = SyncStateContract.Constants.CONTENT_DIRECTORY
     public double getDistance(){
         return distance;
     }
